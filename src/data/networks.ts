@@ -8,7 +8,7 @@ export const networks: NetworkData[] = [
     description: 'Next-generation blockchain protocol',
     socialLinks: [],
     hasMainnetInfo: true,
-    explorerUrl: 'https://explorer.electraprotocol.com',
+    explorerUrl: 'https://electraprotocol.network',
     bridgeUrl: '#'
   },
   {
