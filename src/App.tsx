@@ -78,7 +78,7 @@ function App() {
             </h1>
           </div>
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Securely and quickly bridge your XEP, BONE, and OMAX tokens between different networks. 
+            Securely and quickly bridge your MemeX tokens between XEP, SHIBARIUM, and OMAX networks.
             Choose the best network with real-time price information.
           </p>
           
