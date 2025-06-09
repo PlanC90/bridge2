@@ -74,7 +74,7 @@ function App() {
           <div className="flex items-center justify-center gap-3 mb-4">
             <img src={logoUrl} alt="MemeX Bridge Logo" className="w-12 h-12 rounded-full" />
             <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              MemeX Bridge
+              MemeX Bridges
             </h1>
           </div>
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
