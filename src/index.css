@@ -9,12 +9,28 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  transform: translateZ(0);
 }
 
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  transform: translateZ(0);
+}
+
+/* Performance optimizations */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize images */
+img {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 @layer utilities {
@@ -39,10 +55,10 @@ body {
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) translateZ(0);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-20px) translateZ(0);
   }
 }
 
@@ -80,27 +96,35 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+  
+  /* Reduce animations on mobile for better performance */
+  .animate-blob {
+    animation-duration: 10s;
+  }
 }
 
-/* Button hover effects */
+/* Button hover effects with GPU acceleration */
 .btn-gradient {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   transition: all 0.3s ease;
+  transform: translateZ(0);
 }
 
 .btn-gradient:hover {
   background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* Card animations */
+/* Card animations with performance optimization */
 .card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .card-hover:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-8px) scale(1.02) translateZ(0);
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
 }
 
@@ -152,27 +176,66 @@ body {
 
 @keyframes loading-dots1 {
   0% {
-    transform: scale(0);
+    transform: scale(0) translateZ(0);
   }
   100% {
-    transform: scale(1);
+    transform: scale(1) translateZ(0);
   }
 }
 
 @keyframes loading-dots3 {
   0% {
-    transform: scale(1);
+    transform: scale(1) translateZ(0);
   }
   100% {
-    transform: scale(0);
+    transform: scale(0) translateZ(0);
   }
 }
 
 @keyframes loading-dots2 {
   0% {
-    transform: translate(0, 0);
+    transform: translate(0, 0) translateZ(0);
   }
   100% {
-    transform: translate(19px, 0);
+    transform: translate(19px, 0) translateZ(0);
   }
+}
+
+/* Optimize animations for better performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Additional performance optimizations */
+.bg-gradient-to-br {
+  transform: translateZ(0);
+}
+
+/* Optimize backdrop blur */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Optimize grid layout */
+.grid {
+  contain: layout style;
+}
+
+/* Optimize text rendering */
+h1, h2, h3, h4, h5, h6 {
+  text-rendering: optimizeLegibility;
+}
+
+p, span {
+  text-rendering: optimizeSpeed;
 }

@@ -23,25 +23,23 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { coins, loading, error, refetch } = useCoinData();
 
-  const handleNetworkSelect = (network: Network) => {
+  const handleNetworkSelect = useCallback((network: Network) => {
     if (network.hasMetaMaskSupport) {
       setSelectedNetwork(network);
       setIsModalOpen(true);
     }
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedNetwork(null);
-  };
+  }, []);
 
   const logoUrl = "https://apricot-rational-booby-281.mypinata.cloud/ipfs/bafybeighc2hfv6ra5prrs55255sweuc2ghgvil577wki6seab7b2gelx4a";
 
-  const MemoizedCoinCard = useMemo(() => {
-    return CoinCard;
-  }, []);
+  const MemoizedCoinCard = useMemo(() => CoinCard, []);
 
-  const renderCoinCards = useCallback(() => {
+  const renderCoinCards = useMemo(() => {
     return coins.map((coin) => (
       <MemoizedCoinCard
         key={coin.id}
@@ -51,25 +49,10 @@ function App() {
     ));
   }, [coins, handleNetworkSelect, MemoizedCoinCard]);
 
-  const backgroundImageStyle = useMemo(() => ({
-    backgroundImage: 'url("https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop")',
-  }), []);
-
-  const getMetaMaskLink = () => {
-    const userAgent = navigator.userAgent;
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-      return 'https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202';
-    } else if (/android/i.test(userAgent)) {
-      return 'https://play.google.com/store/apps/details?id=io.metamask&hl=en';
-    } else {
-      return 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?utm_source=www.google.com';
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-x-hidden">
       {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
         <div className="absolute top-40 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-32 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
@@ -77,21 +60,23 @@ function App() {
 
       {/* Hero background image */}
       <div 
-        className="absolute inset-0 opacity-10 bg-cover bg-center"
-        style={backgroundImageStyle}
+        className="absolute inset-0 opacity-10 bg-cover bg-center pointer-events-none"
+        style={{
+          backgroundImage: 'url("https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920&amp;h=1080&amp;fit=crop")'
+        }}
       ></div>
 
       <div className="relative z-10">
         {/* Header */}
         <header className="text-center py-12 px-4">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <img src={logoUrl} alt="MemeX Bridge Logo" className="w-12 h-12 rounded-full" />
+            <img src={logoUrl} alt="MemeX Bridge Logo" className="w-12 h-12 rounded-full" loading="lazy" />
             <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              MemeX Bridges
+              MemeX Bridge
             </h1>
           </div>
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
-            Securely and quickly bridge your MemeX tokens between XEP, SHIBARIUM, and OMAX networks.
+            Securely and quickly bridge your XEP, BONE, and OMAX tokens between different networks. 
             Choose the best network with real-time price information.
           </p>
           
@@ -132,38 +117,10 @@ function App() {
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {renderCoinCards()}
+              {renderCoinCards}
             </div>
           )}
         </main>
-
-        {/* MetaMask Explanation Section */}
-        <section className="container mx-auto px-1 py-1">
-          <div className="text-center mb-8">
-            <img
-              src="https://apricot-rational-booby-281.mypinata.cloud/ipfs/bafkreigobu3fnbmt46xglyjg23uftlcvejpgewe4vh5ov4pez2yvozyinq"
-              alt="MetaMask Logo"
-              className="w-68 h-48 mx-auto mb-4"
-            />
-            <h2 className="text-3xl font-bold text-white mb-4">What is MetaMask?</h2>
-            <div className="flex items-center justify-center mb-4">
-              <p className="text-white/70 max-w-3xl">
-                MetaMask is a popular cryptocurrency wallet used to interact with the Ethereum blockchain and other EVM-compatible networks. It allows users to manage their digital assets, access decentralized applications (dApps), and securely conduct transactions.
-              </p>
-            </div>
-            <a
-              href={getMetaMaskLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-            >
-              Download MetaMask
-            </a>
-          </div>
-        </section>
-
-        {/* Block Explorers Section */}
-        <BlockExplorers />
 
         {/* Footer */}
         <footer className="text-center py-8 px-4 border-t border-white/10">

@@ -21,7 +21,7 @@ interface CoinCardProps {
   onSelectNetwork: (network: any) => void;
 }
 
-const CoinCard: React.FC<CoinCardProps> = ({ coin, onSelectNetwork }) => {
+const CoinCard: React.FC<CoinCardProps> = memo(({ coin, onSelectNetwork }) => {
   const {
     id,
     name,
@@ -40,49 +40,6 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin, onSelectNetwork }) => {
   } = coin;
 
   const [copyStatus, setCopyStatus] = useState<{ [key: string]: 'idle' | 'copied' }>({});
-
-  const handleAddNetworkToMetaMask = async (network: any) => {
-    if (typeof window.ethereum === 'undefined') {
-      alert('MetaMask is not installed!');
-      return;
-    }
-
-    try {
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: `0x${parseInt(network.chainId).toString(16)}`,
-            chainName: network.name,
-            rpcUrls: [network.rpcUrl],
-            nativeCurrency: {
-              name: network.symbol,
-              symbol: network.symbol,
-              decimals: 18,
-            },
-            blockExplorerUrls: [network.blockExplorer],
-          },
-        ],
-      });
-
-      // Add token to MetaMask
-      await window.ethereum.request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: {
-            address: network.contractAddress,
-            symbol: network.symbol,
-            decimals: network.decimals,
-            image: image, // Use the coin image as the token image
-          },
-        },
-      });
-    } catch (error: any) {
-      console.error("Failed to add network to MetaMask:", error);
-      alert(`Failed to add ${network.name} to MetaMask: ${error.message}`);
-    }
-  };
 
   const getNetworksForCoin = () => {
     switch (id) {
@@ -149,13 +106,27 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin, onSelectNetwork }) => {
       });
   };
 
+  const handleAddToMetaMask = (network: any) => {
+    onSelectNetwork(network);
+  };
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) {
+      return `${(num / 1000000).toFixed(2)}M`;
+    }
+    if (num >= 1000) {
+      return `${(num / 1000).toFixed(2)}K`;
+    }
+    return num.toLocaleString();
+  };
+
   return (
-    <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden relative border border-white/10">
+    <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden relative border border-white/10 transform-gpu">
       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <img src={image} alt={name} className="w-10 h-10 rounded-full" />
+            <img src={image} alt={name} className="w-10 h-10 rounded-full" loading="lazy" />
             <div>
               <h3 className="text-lg font-semibold text-white">{name}</h3>
               <p className="text-white/70 text-sm">{symbol}</p>
@@ -172,15 +143,15 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin, onSelectNetwork }) => {
         <div className="mb-4 grid grid-cols-2 gap-2 text-white/80 text-sm">
           <div>
             <p>Market Cap Rank: <span className="font-semibold">{market_cap_rank}</span></p>
-            <p>Market Cap: <span className="font-semibold">${(market_cap / 1000000).toFixed(2)}M</span></p>
-            <p>Total Volume: <span className="font-semibold">${(total_volume / 1000000).toFixed(2)}M</span></p>
+            <p>Market Cap: <span className="font-semibold">${formatNumber(market_cap)}</span></p>
+            <p>Total Volume: <span className="font-semibold">${formatNumber(total_volume)}</span></p>
           </div>
           <div>
-            <p>Circulating Supply: <span className="font-semibold">{circulating_supply.toLocaleString()}</span></p>
-            {total_supply && <p>Total Supply: <span className="font-semibold">{total_supply.toLocaleString()}</span></p>}
-            {max_supply && <p>Max Supply: <span className="font-semibold">{max_supply.toLocaleString()}</span></p>}
+            <p>Circulating Supply: <span className="font-semibold">{formatNumber(circulating_supply)}</span></p>
+            {total_supply && <p>Total Supply: <span className="font-semibold">{formatNumber(total_supply)}</span></p>}
+            {max_supply && <p>Max Supply: <span className="font-semibold">{formatNumber(max_supply)}</span></p>}
           </div>
-          <div>
+          <div className="col-span-2">
             <p>ATH: <span className="font-semibold">${ath}</span></p>
             <p>ATH Date: <span className="font-semibold">{new Date(ath_date).toLocaleDateString()}</span></p>
           </div>
@@ -201,15 +172,9 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin, onSelectNetwork }) => {
             </div>
             <div className="mt-4">
               <button
-                onClick={() => {
-                  const network = relevantNetworks[0];
-                  if (network) {
-                    handleAddNetworkToMetaMask(network);
-                  }
-                }}
+                onClick={() => handleAddToMetaMask(relevantNetworks[0])}
                 className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors block text-center w-full"
               >
-                <img src="https://pbs.twimg.com/profile_images/1895186503443316736/EaIM9RTY_400x400.jpg" alt="MetaMask" className="w-6 h-6 inline-block mr-2 align-middle" style={{ width: '24px', height: '24px' }} />
                 Add Shibarium to MetaMask
               </button>
             </div>
@@ -239,15 +204,9 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin, onSelectNetwork }) => {
             </div>
             <div className="mt-4">
               <button
-                onClick={() => {
-                  const network = relevantNetworks[0];
-                  if (network) {
-                    handleAddNetworkToMetaMask(network);
-                  }
-                }}
+                onClick={() => handleAddToMetaMask(relevantNetworks[0])}
                 className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors block text-center w-full"
               >
-                <img src="https://pbs.twimg.com/profile_images/1895186503443316736/EaIM9RTY_400x400.jpg" alt="MetaMask" className="w-6 h-6 inline-block mr-2 align-middle" style={{ width: '24px', height: '24px' }} />
                 Add OMAX Network to MetaMask
               </button>
             </div>
@@ -287,6 +246,8 @@ const CoinCard: React.FC<CoinCardProps> = ({ coin, onSelectNetwork }) => {
       </div>
     </div>
   );
-};
+});
 
-export default memo(CoinCard);
+CoinCard.displayName = 'CoinCard';
+
+export default CoinCard;

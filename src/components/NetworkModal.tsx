@@ -39,9 +39,31 @@ const NetworkModal: React.FC<NetworkModalProps> = ({ network, isOpen, onClose })
             blockExplorerUrls: [network.blockExplorer],
           }],
         });
-      } catch (error) {
+
+        // Add token to MetaMask if contract address exists
+        if (network.contractAddress) {
+          await window.ethereum.request({
+            method: 'wallet_watchAsset',
+            params: {
+              type: 'ERC20',
+              options: {
+                address: network.contractAddress,
+                symbol: network.symbol,
+                decimals: network.decimals,
+              },
+            },
+          });
+        }
+
+        // Show success message
+        alert(`${network.name} has been successfully added to MetaMask!`);
+        onClose();
+      } catch (error: any) {
         console.error('Error adding network to MetaMask:', error);
+        alert(`Failed to add ${network.name} to MetaMask: ${error.message}`);
       }
+    } else {
+      alert('MetaMask is not installed. Please install MetaMask to continue.');
     }
   };
 
@@ -51,7 +73,7 @@ const NetworkModal: React.FC<NetworkModalProps> = ({ network, isOpen, onClose })
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 max-w-md w-full border border-white/20">
+      <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 max-w-md w-full border border-white/20 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-white">{network.name} Network Info</h3>
           <button
