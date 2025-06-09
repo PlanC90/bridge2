@@ -14,7 +14,7 @@ function App() {
         <img
           src="https://apricot-rational-booby-281.mypinata.cloud/ipfs/bafybeighc2hfv6ra5prrs55255sweuc2ghgvil577wki6seab7b2gelx4a"
           alt="Top Image"
-          className="max-w-[15%] h-auto mb-8 rounded-lg shadow-lg"
+          className="max-w-[15%] h-auto mb-8 rounded-lg shadow-lg mobile:max-w-[40%]"
         />
       </div>
       
