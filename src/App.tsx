@@ -51,6 +51,21 @@ function App() {
     ));
   }, [coins, handleNetworkSelect, MemoizedCoinCard]);
 
+  const backgroundImageStyle = useMemo(() => ({
+    backgroundImage: 'url("https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop")',
+  }), []);
+
+  const getMetaMaskLink = () => {
+    const userAgent = navigator.userAgent;
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      return 'https://apps.apple.com/us/app/metamask-blockchain-wallet/id1438144202';
+    } else if (/android/i.test(userAgent)) {
+      return 'https://play.google.com/store/apps/details?id=io.metamask&hl=en';
+    } else {
+      return 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?utm_source=www.google.com';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-x-hidden">
       {/* Background decorative elements */}
@@ -63,9 +78,7 @@ function App() {
       {/* Hero background image */}
       <div 
         className="absolute inset-0 opacity-10 bg-cover bg-center"
-        style={{
-          backgroundImage: 'url("https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop")'
-        }}
+        style={backgroundImageStyle}
       ></div>
 
       <div className="relative z-10">
@@ -139,7 +152,7 @@ function App() {
               </p>
             </div>
             <a
-              href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?utm_source=www.google.com"
+              href={getMetaMaskLink()}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"

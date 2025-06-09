@@ -80,7 +80,7 @@ const useCoinData = () => {
 
   useEffect(() => {
     fetchCoinData();
-    const interval = setInterval(fetchCoinData, 30000);
+    const interval = setInterval(fetchCoinData, 300000); // 5 minutes = 300000 ms
     return () => clearInterval(interval);
   }, []);
 
