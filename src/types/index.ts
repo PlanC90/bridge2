@@ -4,6 +4,7 @@ export interface NetworkConfig {
   chainId: number;
   symbol: string;
   tokenAddress?: string;
+	explorerUrl?: string;
 }
 
 export interface SocialLink {

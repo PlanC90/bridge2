@@ -9,7 +9,7 @@ export const networks: NetworkData[] = [
     socialLinks: [],
     hasMainnetInfo: true,
     explorerUrl: 'https://electraprotocol.network',
-    bridgeUrl: '#'
+    bridgeUrl: ''
   },
   {
     id: 'omax',
@@ -22,7 +22,8 @@ export const networks: NetworkData[] = [
       rpcUrl: 'https://mainapi.omaxray.com',
       chainId: 311,
       symbol: 'OMAX',
-      tokenAddress: '0xEE9843a40438244e90f0f92A6A3272B63348E412'
+			explorerUrl: 'https://omaxscan.com',
+      tokenAddress: '0x3c1e38Fd9DD87DdFAf32460922aF618b1402e480'
     },
     explorerUrl: 'https://omaxscan.com',
     bridgeUrl: 'https://bridge.memextoken.org/omax'
@@ -38,6 +39,7 @@ export const networks: NetworkData[] = [
       rpcUrl: 'https://www.shibrpc.com',
       chainId: 109,
       symbol: 'BONE',
+			explorerUrl: 'https://shibariumscan.io',
       tokenAddress: '0xBB95050f59ACCA5045D89E142d606C82A627aD60'
     },
     explorerUrl: 'https://shibariumscan.io',
