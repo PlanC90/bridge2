@@ -7,7 +7,7 @@ export const networks: NetworkData[] = [
     profileImage: 'https://pbs.twimg.com/profile_images/1331917259191808000/E1UyOz3m_400x400.png',
     description: 'Next-generation blockchain protocol',
     socialLinks: [],
-    hasMainnetInfo: true,
+    hasMainnetInfo: true, // Keep for Electra
     explorerUrl: 'https://electraprotocol.network',
     bridgeUrl: ''
   },
@@ -44,5 +44,23 @@ export const networks: NetworkData[] = [
     },
     explorerUrl: 'https://shibariumscan.io',
     bridgeUrl: 'https://bridge.memextoken.org/shibarium'
+  },
+  {
+    id: 'areon',
+    name: 'Areon Network',
+    profileImage: 'https://pbs.twimg.com/profile_images/1799036506486759424/qf_BWOlm_400x400.jpg',
+    description: 'Areon Layer 1 Blockchain',
+    socialLinks: [], // Add actual social links if available
+    hasMainnetInfo: false, // Set to false to remove the button
+    networkConfig: {
+      networkName: 'Areon Network',
+      rpcUrl: 'https://mainnet-rpc.areon.network', // Example RPC URL, verify if correct
+      chainId: 463, // Example Chain ID, verify if correct
+      symbol: 'AREA', // Example Symbol, verify if correct
+      explorerUrl: 'https://areonscan.com', // Example Explorer URL, verify if correct
+      tokenAddress: '0x9437f9dcab77688221878b1a111def408f43ec5a' // Add token address if applicable
+    },
+    explorerUrl: 'https://areonscan.com', // Example Explorer URL, verify if correct
+    bridgeUrl: 'https://bridge.memextoken.org/areon' // Example Bridge URL, verify if correct
   }
 ];

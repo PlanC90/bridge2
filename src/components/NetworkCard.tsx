@@ -11,49 +11,54 @@ interface NetworkCardProps {
 export const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getCardGradient = (id: string) => {
-    switch (id) {
-      case 'electra':
-        return 'from-purple-400 via-pink-500 to-red-500';
-      case 'omax':
-        return 'from-blue-400 via-purple-500 to-pink-500';
-      case 'shibarium':
-        return 'from-orange-400 via-red-500 to-pink-500';
-      default:
-        return 'from-gray-400 to-gray-600';
-    }
-  };
+  // Removed gradient logic as card background is now transparent/blurred
+  // const getCardGradient = (id: string) => {
+  //   switch (id) {
+  //     case 'electra':
+  //       return 'from-purple-200 to-pink-300';
+  //     case 'omax':
+  //       return 'from-blue-200 to-purple-300';
+  //     case 'shibarium':
+  //       return 'from-orange-200 to-red-300';
+  //     case 'areon':
+  //       return 'from-purple-200 to-pink-300'; // Use the same gradient as Electra
+  //     default:
+  //       return 'from-gray-200 to-gray-300';
+  //   }
+  // };
 
   return (
     <>
-      <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${getCardGradient(network.id)} p-1 shadow-2xl transition-all duration-500 hover:scale-105 hover:shadow-3xl`}>
-        <div className="relative bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-6 h-full flex flex-col">
+      {/* Card Container with subtle border and shadow */}
+      <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-sm p-px shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-xl border border-white/10 transform-gpu">
+        {/* Inner Content */}
+        <div className="relative bg-white/5 rounded-2xl p-8 h-full flex flex-col">
           {/* Profile Section */}
-          <div className="flex items-center gap-4 mb-6">
+          <div className="flex items-center gap-5 mb-8">
             <div className="relative">
               <img
                 src={network.profileImage}
                 alt={network.name}
-                className="w-16 h-16 rounded-full object-cover border-4 border-white border-opacity-50"
+                className="w-24 h-24 rounded-full object-cover border-2 border-white/30 shadow-sm"
               />
               <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-white mb-1">{network.name}</h3>
-              <p className="text-white text-opacity-80 text-sm">{network.description}</p>
+              <h3 className="text-2xl font-semibold text-white mb-1">{network.name}</h3>
+              <p className="text-white/70 text-sm">{network.description}</p>
             </div>
           </div>
 
           {/* Social Links */}
-          <div className="mb-6">
+          <div className="mb-8">
             <SocialLinks links={network.socialLinks} />
           </div>
 
           {/* Action Buttons - Using flex-grow to push buttons to bottom and align them */}
           <div className="flex-grow flex flex-col justify-end">
-            <div className="space-y-3">
+            <div className="space-y-4">
               {network.hasMainnetInfo && (
-                <button className="w-full flex items-center justify-center gap-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 hover:shadow-lg">
+                <button className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 shadow-sm border border-white/20">
                   <Info className="w-5 h-5" />
                   Mainnet Info
                 </button>
@@ -62,20 +67,20 @@ export const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
               {network.networkConfig && (
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 hover:shadow-lg"
+                  className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-200 shadow-md"
                 >
                   <Wallet className="w-5 h-5" />
                   Add to MetaMask
                 </button>
               )}
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 {network.explorerUrl && (
                   <a
                     href={network.explorerUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 hover:shadow-lg"
+                    className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 shadow-sm border border-white/20"
                   >
                     <ExternalLink className="w-4 h-4" />
                     Explorer
@@ -87,7 +92,7 @@ export const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
                     href={network.bridgeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 hover:shadow-lg"
+                    className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 shadow-sm border border-white/20"
                   >
                     <Bridge className="w-4 h-4" />
                     Bridge
