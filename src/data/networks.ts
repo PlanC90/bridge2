@@ -23,7 +23,7 @@ export const networks: NetworkData[] = [
       chainId: 311,
       symbol: 'OMAX',
 			explorerUrl: 'https://omaxscan.com',
-      tokenAddress: '0x96CBE66C162Ada7F3f98E7AAF35Ffc57f222725C'
+      tokenAddress: '0xe5Fb9961E76e3F706e622bfEEb0a246E6ddF0631'
     },
     explorerUrl: 'https://omaxscan.com',
     bridgeUrl: 'https://bridge.memextoken.org/omax'
