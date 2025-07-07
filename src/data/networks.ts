@@ -66,7 +66,7 @@ export const networks: NetworkData[] = [
   {
     id: 'bnb',
     name: 'BNB Chain',
-    profileImage: '/images/bnb logo.png',
+    profileImage: 'https://pbs.twimg.com/profile_images/1876286110071975936/HvkhyFZg_400x400.jpg',
     description: 'Binance Smart Chain Network',
     socialLinks: [],
     networkConfig: {
