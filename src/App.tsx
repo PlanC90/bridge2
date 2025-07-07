@@ -1,14 +1,26 @@
-import React from 'react';
-import { NetworkCard } from './components/NetworkCard';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NetworkCard from './components/NetworkCard';
 import { networks } from './data/networks';
 import { Wallet, Zap } from 'lucide-react';
+import BridgeNotifications from './components/BridgeNotifications';
+import BridgeClosedOmax from './pages/BridgeClosedOmax';
+import BridgeClosedAreon from './pages/BridgeClosedAreon';
 
-function App() {
+const Dashboard: React.FC = () => {
+  const [isAnyPopupOpen, setIsAnyPopupOpen] = useState(false);
+
+  const handlePopupStateChange = (isOpen: boolean) => {
+    setIsAnyPopupOpen(isOpen);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 text-white">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.05%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
 
+      {/* Bridge Notifications - gizle popup açıkken */}
+      <BridgeNotifications hideWhenPopupOpen={isAnyPopupOpen} />
       
       <div className="relative z-10 container mx-auto px-4 py-16">
         {/* Header */}
@@ -39,7 +51,11 @@ function App() {
         {/* Network Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 max-w-7xl mx-auto">
           {networks.map((network) => (
-            <NetworkCard key={network.id} network={network} />
+            <NetworkCard 
+              key={network.id} 
+              network={network} 
+              onPopupStateChange={handlePopupStateChange}
+            />
           ))}
         </div>
 
@@ -51,6 +67,18 @@ function App() {
         </div>
       </div>
     </div>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/bridge-closed-omax" element={<BridgeClosedOmax />} />
+        <Route path="/bridge-closed-areon" element={<BridgeClosedAreon />} />
+      </Routes>
+    </Router>
   );
 }
 

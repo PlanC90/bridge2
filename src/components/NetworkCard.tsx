@@ -1,31 +1,65 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, ExternalLink, Grid as Bridge, Info, Wallet } from 'lucide-react';
 import { NetworkData } from '../types';
 import { SocialLinks } from './SocialLinks';
 import { MetamaskModal } from './MetamaskModal';
+import BridgeTutorialPopup from './BridgeTutorialPopup';
+import BnbBridgeTutorialPopup from './BnbBridgeTutorialPopup';
 
 interface NetworkCardProps {
   network: NetworkData;
+  onPopupStateChange?: (isOpen: boolean) => void;
 }
 
-export const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
+const NetworkCard: React.FC<NetworkCardProps> = ({ network, onPopupStateChange }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
+  const [isBnbTutorialOpen, setIsBnbTutorialOpen] = useState(false);
+  const navigate = useNavigate();
 
-  // Removed gradient logic as card background is now transparent/blurred
-  // const getCardGradient = (id: string) => {
-  //   switch (id) {
-  //     case 'electra':
-  //       return 'from-purple-200 to-pink-300';
-  //     case 'omax':
-  //       return 'from-blue-200 to-purple-300';
-  //     case 'shibarium':
-  //       return 'from-orange-200 to-red-300';
-  //     case 'areon':
-  //       return 'from-purple-200 to-pink-300'; // Use the same gradient as Electra
-  //     default:
-  //       return 'from-gray-200 to-gray-300';
-  //   }
-  // };
+  const handleBridgeClick = () => {
+    if (network.id === 'omax') {
+      navigate('/bridge-closed-omax');
+    } else if (network.id === 'areon') {
+      navigate('/bridge-closed-areon');
+    } else if (network.id === 'bnb') {
+      setIsBnbTutorialOpen(true);
+      onPopupStateChange?.(true);
+    } else if (network.bridgeUrl) {
+      window.open(network.bridgeUrl, '_blank');
+    }
+  };
+
+  const handleTutorialComplete = () => {
+    // OMAX bridge is closed, so this won't be called
+  };
+
+  const handleTutorialClose = () => {
+    setIsTutorialOpen(false);
+    onPopupStateChange?.(false);
+  };
+
+  const handleBnbTutorialComplete = () => {
+    if (network.bridgeUrl) {
+      window.open(network.bridgeUrl, '_blank');
+    }
+  };
+
+  const handleBnbTutorialClose = () => {
+    setIsBnbTutorialOpen(false);
+    onPopupStateChange?.(false);
+  };
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+    onPopupStateChange?.(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    onPopupStateChange?.(false);
+  };
 
   return (
     <>
@@ -66,7 +100,7 @@ export const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
 
               {network.networkConfig && (
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={handleModalOpen}
                   className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-200 shadow-md"
                 >
                   <Wallet className="w-5 h-5" />
@@ -88,15 +122,13 @@ export const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
                 )}
 
                 {network.bridgeUrl && (
-                  <a
-                    href={network.bridgeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={handleBridgeClick}
                     className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white py-3 px-4 rounded-xl font-medium transition-all duration-200 shadow-sm border border-white/20"
                   >
                     <Bridge className="w-4 h-4" />
                     Bridge
-                  </a>
+                  </button>
                 )}
               </div>
             </div>
@@ -107,11 +139,29 @@ export const NetworkCard: React.FC<NetworkCardProps> = ({ network }) => {
       {network.networkConfig && (
         <MetamaskModal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={handleModalClose}
           networkConfig={network.networkConfig}
           networkName={network.name}
+        />
+      )}
+
+      {network.id === 'omax' && (
+        <BridgeTutorialPopup
+          isOpen={isTutorialOpen}
+          onClose={handleTutorialClose}
+          onComplete={handleTutorialComplete}
+        />
+      )}
+
+      {network.id === 'bnb' && (
+        <BnbBridgeTutorialPopup
+          isOpen={isBnbTutorialOpen}
+          onClose={handleBnbTutorialClose}
+          onComplete={handleBnbTutorialComplete}
         />
       )}
     </>
   );
 };
+
+export default NetworkCard;

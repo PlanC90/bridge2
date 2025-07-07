@@ -23,7 +23,7 @@ export const networks: NetworkData[] = [
       chainId: 311,
       symbol: 'OMAX',
 			explorerUrl: 'https://omaxscan.com',
-      tokenAddress: '0xe5Fb9961E76e3F706e622bfEEb0a246E6ddF0631'
+      tokenAddress: '0x96CBE66C162Ada7F3f98E7AAF35Ffc57f222725C'
     },
     explorerUrl: 'https://omaxscan.com',
     bridgeUrl: 'https://bridge.memextoken.org/omax'
@@ -62,5 +62,22 @@ export const networks: NetworkData[] = [
     },
     explorerUrl: 'https://areonscan.com', // Example Explorer URL, verify if correct
     bridgeUrl: 'https://bridge.memextoken.org/areon' // Example Bridge URL, verify if correct
+  },
+  {
+    id: 'bnb',
+    name: 'BNB Chain',
+    profileImage: '/images/bnb logo.png',
+    description: 'Binance Smart Chain Network',
+    socialLinks: [],
+    networkConfig: {
+      networkName: 'Binance Smart Chain',
+      rpcUrl: 'https://bsc-dataseed.binance.org/',
+      chainId: 56,
+      symbol: 'BNB',
+      explorerUrl: 'https://bscscan.com/',
+      tokenAddress: '0x96CBE66C162Ada7F3f98E7AAF35Ffc57f222725C' // Example token address
+    },
+    explorerUrl: 'https://bscscan.com/',
+    bridgeUrl: 'https://bridge.memextoken.org/bnb'
   }
 ];
