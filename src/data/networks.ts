@@ -75,7 +75,7 @@ export const networks: NetworkData[] = [
       chainId: 56,
       symbol: 'BNB',
       explorerUrl: 'https://bscscan.com/',
-      tokenAddress: '0x96CBE66C162Ada7F3f98E7AAF35Ffc57f222725C' // Example token address
+      tokenAddress: '0xB04169BD381e2580E562bdF17aF5f74b5d529C0b' // Example token address
     },
     explorerUrl: 'https://bscscan.com/',
     bridgeUrl: 'https://bridge.memextoken.org/bnb'
