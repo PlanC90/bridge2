@@ -22,8 +22,8 @@ export const networks: NetworkData[] = [
       rpcUrl: 'https://mainapi.omaxray.com',
       chainId: 311,
       symbol: 'OMAX',
-			explorerUrl: 'https://omaxscan.com',
-      tokenAddress: '0x96CBE66C162Ada7F3f98E7AAF35Ffc57f222725C'
+      explorerUrl: 'https://omaxscan.com',
+      tokenAddress: '0xe5Fb9961E76e3F706e622bfEEb0a246E6ddF0631'
     },
     explorerUrl: 'https://omaxscan.com',
     bridgeUrl: 'https://bridge.memextoken.org/omax'
@@ -39,7 +39,7 @@ export const networks: NetworkData[] = [
       rpcUrl: 'https://www.shibrpc.com',
       chainId: 109,
       symbol: 'BONE',
-			explorerUrl: 'https://shibariumscan.io',
+      explorerUrl: 'https://shibariumscan.io',
       tokenAddress: '0xBB95050f59ACCA5045D89E142d606C82A627aD60'
     },
     explorerUrl: 'https://shibariumscan.io',

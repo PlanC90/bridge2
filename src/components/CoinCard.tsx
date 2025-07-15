@@ -53,7 +53,7 @@ const CoinCard: React.FC<CoinCardProps> = memo(({ coin, onSelectNetwork }) => {
           blockExplorer: 'https://omaxray.com',
           color: 'green-500',
           hasMetaMaskSupport: true,
-          contractAddress: '0xA652446D101D145Af788672cc5dd7F8C5c87e009'
+          contractAddress: '0xe5Fb9961E76e3F706e622bfEEb0a246E6ddF0631'
         }];
       case 'bone':
         return [{
@@ -78,6 +78,18 @@ const CoinCard: React.FC<CoinCardProps> = memo(({ coin, onSelectNetwork }) => {
           color: 'gray-500',
           hasMetaMaskSupport: true,
           contractAddress: 'fa005b6cd335f016a5df18fd56cf2baa27352402ad6d3c023d59958de2a8483a'
+        }];
+      case 'olsun':
+        return [{
+          name: 'OMAX Network',
+          chainId: '444',
+          rpcUrl: 'https://olsunapi.com',
+          symbol: 'OLSUN',
+          decimals: 18,
+          blockExplorer: 'https://explorer.olsunapi.com/',
+          color: 'purple-500',
+          hasMetaMaskSupport: true,
+          contractAddress: '0xe5Fb9961E76e3F706e622bfEEb0a246E6ddF0631'
         }];
       default:
         return [];
@@ -240,6 +252,38 @@ const CoinCard: React.FC<CoinCardProps> = memo(({ coin, onSelectNetwork }) => {
               >
                 Main Network
               </button>
+            </div>
+          </>
+        )}
+
+        {id === 'olsun' && (
+          <>
+            <div className="mb-4 flex items-center">
+              <p className="text-white/70 text-sm mr-2">
+                Contract Address: <code className="font-mono text-white/90">{relevantNetworks[0].contractAddress}</code>
+              </p>
+              <button
+                onClick={() => handleCopyClick(relevantNetworks[0].contractAddress, 'olsun')}
+                className="bg-white/10 hover:bg-white/20 rounded p-1 transition-colors"
+              >
+                {copyStatus['olsun'] === 'copied' ? 'Copied!' : <Copy className="w-4 h-4 text-white" />}
+              </button>
+            </div>
+            <div className="mt-4">
+              <button
+                onClick={() => handleAddToMetaMask(relevantNetworks[0])}
+                className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors block text-center w-full"
+              >
+                Add Olsun Network to MetaMask
+              </button>
+            </div>
+            <div className="mt-2">
+              <a
+                href="https://bridge.memextoken.org/olsun/"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors block text-center w-full"
+              >
+                Bridge OLSUN
+              </a>
             </div>
           </>
         )}
